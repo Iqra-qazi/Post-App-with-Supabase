@@ -1,0 +1,270 @@
+.container {
+    /* background-color: #6D3871; */
+    padding-top: 100px;
+    margin-top: 100px;
+    width: 30%;
+    height: 600px;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+
+    background-image: url(https://i.pinimg.com/736x/e4/15/63/e41563ef8604c5db41d4d2132b71458f.jpg);
+}
+
+.main-heading {
+
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: #744B93;
+    margin-bottom: 10px;
+    gap: 10px;
+
+}
+
+.sub-heading {
+    color: #FCB404;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-bottom: 20px;
+}
+
+.hero-img {
+    width: 250px;
+    margin: 20px 0;
+}
+
+.heading {
+    font-size: 25px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.start-btn {
+    background: #744B93;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.start-btn:hover {
+    background: #5A55AE;
+}
+
+.login-heading {
+    color: #5A55AE;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    font-family: serif;
+}
+
+.social-login {
+    margin-top: 20px;
+    display: flex;
+
+    justify-content: center;
+}
+
+.social-login button {
+    width: 50%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 25px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+label {
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+
+}
+
+input:focus {
+    outline: none;
+}
+
+.google-btn {
+    background: white;
+    border: 1px solid #ccc;
+}
+
+.google-btn img {
+    width: 20px;
+}
+
+.navbar {
+    background-color: #5A55AE;
+    color: #744B93 
+};
+
+.facebook-btn {
+    background: #fff;
+    color: black;
+}
+
+.facebook-btn img {
+    width: 20px;
+}
+
+.container-1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    border: 2px solid #5A55AE;
+}
+
+.btn {
+    background: #744B93;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    background: #5A55AE;
+}
+
+.form-control {
+    border: 2px solid #5A55AE;
+}
+
+.card-header {
+    color: #ab47bc;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #ab47bc;
+    border-color: #ab47bc;
+    width: 100px;
+}
+
+.btn-primary:hover {
+    background-color: #ab47bc;
+    border-color: #ab47bc;
+}
+
+.btn-primary:active {
+    background-color: #ab47bc !important;
+    border-color: #ab47bc !important;
+}
+
+.form-control:focus {
+    border-color: #ab47bc;
+    box-shadow: 0 0 0 0.2rem rgba(171, 71, 188, 0.25) !important;
+}
+
+.swal2-confirm {
+    background-color: #ab47bc !important;
+    border-color: #ab47bc !important;
+}
+
+
+.cardimg {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 2px solid transparent;
+}
+
+
+.cardimg:hover {
+    transform: scale(1.1);
+}
+
+.card-body {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.select {
+    border: 3px solid #6c63ff;
+    transform: scale(1.05);
+    /* thoda zoom effect */
+}
+
+button {
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+
+.btn-success {
+    background: linear-gradient(45deg, #28a745, #34d058);
+    color: white;
+}
+
+.btn-success:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+.btn-danger {
+    background: linear-gradient(45deg, #dc3545, #ff4d6d);
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+.not-found-card {
+    width: 100%;
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 25px;
+    text-align: center;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.search-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.not-found-card h3 {
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.not-found-card p {
+    color: #666;
+    font-size: 15px;
+    margin-bottom: 18px;
+}
+
+.not-found-card .btn {
+    padding: 8px 18px;
+}
