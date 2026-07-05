@@ -1,5 +1,5 @@
-.container {
-    /* background-color: #6D3871; */
+/* .container {
+   
     padding-top: 100px;
     margin-top: 100px;
     width: 30%;
@@ -205,7 +205,7 @@ input:focus {
     border: 3px solid #6c63ff;
     transform: scale(1.05);
     /* thoda zoom effect */
-}
+/* }
 
 button {
     border: none;
@@ -267,4 +267,525 @@ button {
 
 .not-found-card .btn {
     padding: 8px 18px;
+} */ 
+ /* =========================================================
+   POSTEURA — Corkboard theme
+   Signature idea: posts are pinned index cards on a corkboard.
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+    --board: #1c0f2e;
+    --board-dark: #120a1f;
+    --board-shadow: #05030a;
+
+    --paper: #f8efd6;
+    --paper-edge: #e9d8ab;
+    --paper-line: #e3d3a7;
+
+    --ink: #2b1b10;
+    --ink-soft: #6b5640;
+
+    --pin-coral: #ff3f9e;
+    --pin-teal: #1fb8a8;
+    --pin-mustard: #ffbe3d;
+    --pin-violet: #9b5cff;
+
+    --tape: rgba(255, 255, 255, .65);
+
+    --font-display: 'Caveat', cursive;
+    --font-mono: 'Space Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    min-height: 100%;
+}
+
+body {
+    font-family: var(--font-mono);
+    color: var(--ink);
+    background-color: var(--board);
+    background-image:
+        radial-gradient(circle at 10% 15%, rgba(255, 61, 158, .16) 0, transparent 42%),
+        radial-gradient(circle at 88% 20%, rgba(157, 78, 221, .18) 0, transparent 45%),
+        radial-gradient(circle at 30% 85%, rgba(157, 78, 221, .14) 0, transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(255, 61, 158, .12) 0, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .03) 0, transparent 2px);
+    background-size: auto, auto, auto, auto, 26px 26px;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+    min-height: 100vh;
+}
+
+/* ---------- Nav: wooden plank strip ---------- */
+.navbar {
+    background: linear-gradient(180deg, #2a1140 0%, #0d0616 100%) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .5), inset 0 -3px 0 rgba(255, 61, 158, .15);
+    padding: 14px 24px;
+}
+
+.navbar-brand {
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 700;
+    color: #ff8fd6 !important;
+    text-shadow: 0 0 14px rgba(255, 61, 158, .55), 1px 2px 0 rgba(0, 0, 0, .5);
+    letter-spacing: .5px;
+}
+
+.navbar-nav .nav-link {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #d9c3f0 !important;
+    margin: 0 6px;
+    border-bottom: 2px solid transparent;
+    transition: .2s;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+    border-bottom: 2px solid var(--glow-pink);
+    color: #fff !important;
+}
+
+.navbar .form-control {
+    font-family: var(--font-mono);
+    background: #0d0616;
+    color: #f3e6fb;
+    border: 1px solid rgba(255, 61, 158, .25);
+    border-radius: 999px 0 0 999px;
+    padding: 8px 16px;
+    letter-spacing: .04em;
+}
+
+.navbar .form-control::placeholder { color: #8f7aa8; }
+
+.navbar .form-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--glow-pink) inset;
+}
+
+.navbar button[onclick="searchbtn()"] {
+    border-radius: 0 999px 999px 0 !important;
+    background: linear-gradient(135deg, var(--glow-pink), var(--glow-purple)) !important;
+    color: #fff !important;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    margin-top: 0 !important;
+}
+
+/* ---------- Page layout ---------- */
+.container-1 {
+    align-items: flex-start !important;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 46px 24px 80px;
+}
+
+.container-1 .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    width: 100%;
+    margin: 0;
+    align-items: flex-start;
+}
+
+/* ---------- Compose card: pinned index card ---------- */
+.container-1 .card.p-3 {
+    background: var(--paper) !important;
+    border: none !important;
+    border-radius: 3px !important;
+    width: 300px;
+    padding: 30px 22px 22px !important;
+    position: relative;
+    transform: rotate(-1.4deg);
+    box-shadow: 0 14px 24px rgba(0, 0, 0, .35);
+    background-image: repeating-linear-gradient(var(--paper) 0 27px, var(--paper-line) 27px 28px);
+}
+
+.container-1 .card.p-3::before {
+    /* pushpin */
+    content: "";
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ff9a8f, var(--pin-coral) 60%, #b8392f 100%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, .4);
+}
+
+.container-1 .card.p-3::after {
+    /* washi tape */
+    content: "";
+    position: absolute;
+    top: 10px;
+    right: -14px;
+    width: 70px;
+    height: 26px;
+    background: repeating-linear-gradient(45deg, var(--tape) 0 6px, rgba(255,255,255,.35) 6px 12px);
+    opacity: .9;
+    transform: rotate(35deg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+}
+
+.container-1 .form-label {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--ink-soft);
+    margin-bottom: 2px;
+}
+
+.container-1 .form-control,
+.container-1 textarea.form-control {
+    font-family: var(--font-mono);
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px dashed var(--ink-soft) !important;
+    border-radius: 0 !important;
+    color: var(--ink);
+    padding: 4px 2px;
+}
+
+.container-1 .form-control:focus {
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--pin-teal) !important;
+}
+
+.container-1 .cardimg {
+    width: 54px;
+    height: 54px;
+    border: 4px solid #fff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .35);
+    transform: rotate(-4deg);
+}
+
+.container-1 .cardimg:nth-child(2n) { transform: rotate(3deg); }
+.container-1 .cardimg:nth-child(3n) { transform: rotate(-2deg); }
+
+.container-1 .cardimg.select {
+    border-color: var(--pin-teal);
+    transform: scale(1.12) rotate(0deg) !important;
+}
+
+.container-1 .start-btn {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-size: 13px;
+    width: 100%;
+    background: var(--ink) !important;
+    border-radius: 4px !important;
+}
+
+.container-1 .start-btn:hover { background: var(--pin-teal) !important; }
+
+/* ---------- Posts board ---------- */
+#posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 46px 30px;
+    width: 100%;
+    padding-top: 10px;
+}
+
+#posts .card {
+    background: var(--paper) !important;
+    border: none !important;
+    border-radius: 2px !important;
+    box-shadow: 0 12px 20px rgba(0, 0, 0, .38);
+    position: relative;
+    transform: rotate(-2deg);
+    transition: transform .2s ease, box-shadow .2s ease;
+    overflow: visible !important;
+}
+
+#posts .card:nth-child(4n+1) { transform: rotate(-2deg); }
+#posts .card:nth-child(4n+2) { transform: rotate(1.6deg); }
+#posts .card:nth-child(4n+3) { transform: rotate(-1deg); }
+#posts .card:nth-child(4n+4) { transform: rotate(2.4deg); }
+
+#posts .card:hover {
+    transform: scale(1.03) rotate(0deg);
+    box-shadow: 0 18px 30px rgba(0, 0, 0, .45);
+    z-index: 5;
+}
+
+#posts .card::before {
+    /* pushpin, colour cycles per card */
+    content: "";
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, .4);
+    z-index: 2;
+}
+
+#posts .card:nth-child(4n+1)::before { background: radial-gradient(circle at 35% 30%, #ffa79c, var(--pin-coral) 60%, #a3372d 100%); }
+#posts .card:nth-child(4n+2)::before { background: radial-gradient(circle at 35% 30%, #7fe6da, var(--pin-teal) 60%, #0f7d71 100%); }
+#posts .card:nth-child(4n+3)::before { background: radial-gradient(circle at 35% 30%, #ffe08a, var(--pin-mustard) 60%, #c98f14 100%); }
+#posts .card:nth-child(4n+4)::before { background: radial-gradient(circle at 35% 30%, #c1b6ff, var(--pin-violet) 60%, #5b46c9 100%); }
+
+#posts .card-header {
+    background: transparent !important;
+    border: none !important;
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--ink-soft) !important;
+    padding: 18px 14px 4px !important;
+}
+
+#posts .card-body {
+    margin: 6px 12px 12px;
+    min-height: 150px;
+    border-radius: 2px;
+    border: 6px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px !important;
+}
+
+#posts .card-body h5 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    background: var(--paper);
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 2px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+    margin-bottom: 6px;
+    transform: rotate(-1deg);
+    max-width: 100%;
+}
+
+#posts .card-body p {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink);
+    background: rgba(248, 239, 214, .92);
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 2px;
+    margin: 0;
+    max-width: 100%;
+}
+
+#posts .ms-auto.m-2 {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    padding-bottom: 16px;
+}
+
+#posts .btn-success,
+#posts .btn-danger {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: none !important;
+    margin-top: 0 !important;
+}
+
+#posts .btn-success {
+    color: #0f7d71 !important;
+    border: 1.5px dashed #0f7d71 !important;
+}
+
+#posts .btn-danger {
+    color: #a3372d !important;
+    border: 1.5px dashed #a3372d !important;
+}
+
+#posts .btn-success:hover { background: #0f7d71 !important; color: #fff !important; }
+#posts .btn-danger:hover { background: #a3372d !important; color: #fff !important; }
+
+/* ---------- Not found note ---------- */
+.not-found-card {
+    grid-column: 1 / -1;
+    background: var(--paper);
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0 12px 20px rgba(0, 0, 0, .35);
+    transform: rotate(-1deg);
+    position: relative;
+    padding: 34px 25px !important;
+}
+
+.not-found-card::before {
+    content: "";
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ffe08a, var(--pin-mustard) 60%, #c98f14 100%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, .4);
+}
+
+.not-found-card h3 {
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--ink);
+}
+
+.not-found-card p { color: var(--ink-soft); }
+
+/* =========================================================
+   AUTH PAGES (login / signup) — pinned welcome note
+   ========================================================= */
+
+.container {
+    background: var(--paper) !important;
+    background-image: repeating-linear-gradient(var(--paper) 0 27px, var(--paper-line) 27px 28px) !important;
+    width: min(380px, 90%);
+    height: auto;
+    min-height: unset;
+    margin: 90px auto;
+    padding: 46px 34px 34px !important;
+    border-radius: 3px;
+    position: relative;
+    transform: rotate(-1deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #7fe6da, var(--pin-teal) 60%, #0f7d71 100%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, .4);
+}
+
+.container::after {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: -16px;
+    width: 74px;
+    height: 26px;
+    background: repeating-linear-gradient(45deg, var(--tape) 0 6px, rgba(255,255,255,.35) 6px 12px);
+    opacity: .9;
+    transform: rotate(-30deg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+}
+
+.main-heading {
+    font-family: var(--font-display) !important;
+    font-size: 40px !important;
+    color: var(--ink) !important;
+    text-align: center;
+    margin-bottom: 4px !important;
+}
+
+.sub-heading {
+    font-family: var(--font-mono) !important;
+    color: var(--ink-soft) !important;
+    text-align: center;
+}
+
+label {
+    font-family: var(--font-mono);
+    color: var(--ink-soft);
+    display: block;
+    margin-top: 16px;
+}
+
+input {
+    font-family: var(--font-mono);
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--ink-soft);
+    border-radius: 0;
+    padding: 6px 2px;
+    color: var(--ink);
+}
+
+input:focus {
+    border-bottom: 1px solid var(--pin-teal);
+}
+
+.start-btn {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-size: 13px;
+    width: 100%;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+}
+
+.start-btn:hover { background: var(--pin-teal); }
+
+.login-heading {
+    font-family: var(--font-display) !important;
+    color: var(--ink-soft) !important;
+    font-size: 22px !important;
+    margin-top: 20px;
+}
+
+.social-login button {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    border: 1px dashed var(--ink-soft) !important;
+    background: transparent !important;
+}
+
+.social-login .google-btn,
+.social-login .facebook-btn {
+    color: var(--ink) !important;
+}
+
+/* ---------- Landing page (index.html) ---------- */
+.admin-section {
+    width: 100%;
+    text-align: center;
+}
+
+.hero-img {
+    display: block;
+    width: 150px;
+    margin: 6px auto 20px;
+    border: 6px solid #fff;
+    border-radius: 2px;
+    box-shadow: 0 10px 18px rgba(0, 0, 0, .35);
+    transform: rotate(-3deg);
+}
+
+.heading {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: .05em;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
 }
