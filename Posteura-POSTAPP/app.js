@@ -2,92 +2,64 @@ var supabase = window.supabase.createClient('https://krfehxcloabvtbdxlzwy.supaba
 console.log(supabase);
 let edited = false;
 let idindex = null;
-
+let email;
+let userId;
 window.onload = async function () {
-
     const posts = document.getElementById("posts");
-
     if (!posts) {
         console.log("posts div not found");
         return;
     }
-
     try {
-
         const { data, error } = await supabase
             .from("PostApp")
             .select("*")
             .order("id", { ascending: false });
-
         if (error) {
             console.log(error);
             return;
         }
-
         posts.innerHTML = "";
-
         data.forEach(post => {
 
             posts.innerHTML += `
             <div class="card m-3">
-                <div class="card-header">Post: @${post.email}</div>
-
+                <div class="card-header">Post:${post.id}: @${post.user_email}</div>
                 <div class="card-body"
-                style="background-image:url('${post.cardBg}');
+                style="background-image:url('${post.bg_img}');
                 background-size:cover;">
-
                     <h5>${post.title}</h5>
-
                     <p>${post.description}</p>
-
                 </div>
-
-                <div class="m-3 ms-auto">
-
-                <button class="btn btn-success"
-                onclick="editedPost(event,${post.id})">
-                Edit
-                </button>
-
-                <button class="btn btn-danger"
-                onclick="deletePost(event,${post.id})">
-                Delete
-                </button>
-
-                </div>
-
+                <div class="ms-auto m-2">
+             <button onclick="editPost(event,${post.id},'${post.description}','${post.title}','${post.bg_img}')" class="btn btn-success">Edit</button>
+             <button onclick="deletePost(event,${post.id})" class="btn btn-danger">Delete</button>
+             
             </div>
             `;
-
         });
-
     } catch (err) {
-
         console.log(err);
-
     }
-
+    ;
 }
-
 async function searchbtn() {
-    let searchInput= document.getElementById("searchInput").value;
+    let searchInput = document.getElementById("searchInput").value;
     console.log(searchInput);
-      try {
-
-  const { data, error } = await supabase
-  .from('PostApp')
-  .select('*')
-  .or(`title.ilike.%${searchInput}%,description.ilike.%${searchInput}%`)
-
-  var posts = document.getElementById("posts")
-  console.log(data);
-console.log(error);
-  posts.innerHTML = ""
-  data.forEach(post => {
-    posts.innerHTML += `
+    try {
+        const { data, error } = await supabase
+            .from('PostApp')
+            .select('*')
+            .or(`title.ilike.%${searchInput}%,description.ilike.%${searchInput}%`)
+        var posts = document.getElementById("posts")
+        console.log(data);
+        console.log(error);
+        posts.innerHTML = ""
+        data.forEach(post => {
+            posts.innerHTML += `
     <div class="card mb-2">
              <div class="card-header">${post.id} ~Post</div>
-             <div style="background-image:url(${post.cardBg})" class="card-body">
+             <div style="background-image:url(${post.bg_img})" class="card-body">
                <figure>
                  <blockquote class="blockquote">
                    <p>
@@ -100,17 +72,16 @@ console.log(error);
                </figure>
              </div>
              <div class="ms-auto m-2">
-             <button onclick="editPost(event,${post.id},'${post.description}','${post.title}','${post.cardBg}')" class="btn btn-success">Edit</button>
+             <button onclick="editPost(event,${post.id},'${post.description}','${post.title}','${post.bg_img}')" class="btn btn-success">Edit</button>
              <button onclick="deletePost(event,${post.id})" class="btn btn-danger">Delete</button>
              </div>
            </div>
    `})
-
-  console.log(data);
-//   if(!data.length){
-//     posts.innerHTML= "No posts Found"
-if (data.length === 0) {
-    posts.innerHTML = `
+        console.log(data);
+        //   if(!data.length){
+        //     posts.innerHTML= "No posts Found"
+        if (data.length === 0) {
+            posts.innerHTML = `
         <div class="not-found-card">
             <div class="search-icon">🔍</div>
             <h3>No Posts Found</h3>
@@ -120,32 +91,22 @@ if (data.length === 0) {
             </button>
         </div>
     `;
-    return;
-
-
-  }
-
-  if(error) console.log(error);
-  } catch (error) {
-    console.log(error);
-  }
-
+            return;
+        }
+        if (error) console.log(error);
+    } catch (error) {
+        console.log(error);
+    }
 }
 var cardBg = "";
-
 function select(src, element) {
     cardBg = src;
-
     var images = document.getElementsByClassName("cardimg");
-
     for (var i = 0; i < images.length; i++) {
         images[i].classList.remove("select");
     }
-
     element.classList.add("select");
 }
-
-
 async function post() {
 
     const title = document.getElementById("title").value.trim();
@@ -159,20 +120,16 @@ async function post() {
         });
         return;
     }
-      try {
-
-      const { data: { user }, error } = await supabase.auth.getUser()
-      console.log(user.email);
-      email = user.email
-      if(error)console.log(error);
-
-    } catch (error) {
-      console.log(error);
-    }
-
     try {
-
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error) {
+            console.log(error);
+            return;
+        }
+        email = user.email;
+         userId = user.id
         if (edited) {
+
             const { error } = await supabase
                 .from("PostApp")
                 .update({
@@ -202,7 +159,9 @@ async function post() {
                 .insert({
                     title: title,
                     description: description,
-                    bg_img: cardBg
+                    bg_img: cardBg,
+                    user_email: email,
+                    user_id: userId
                 });
 
             if (error) {
@@ -221,61 +180,49 @@ async function post() {
         document.getElementById("description").value = "";
         cardBg = "";
 
-        window.location.reload();
-
     } catch (error) {
         console.log(error);
     }
+      location.reload()
 }
-
-
 async function deletePost(event, id) {
+    console.log(event, id);
     try {
         const { data, error } = await supabase
             .from('PostApp')
             .delete()
             .eq('id', id)
         if (error) console.log(error);
-
+        // console.log(data);
     } catch (error) {
         console.log(error);
     }
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "This post will be deleted!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Delete the card
-
-            var card = event.target.closest('.card'); // parent card div
-            card.remove();
-
-            // Success alert
-            Swal.fire(
-                'Deleted!',
-                'Your post has been deleted.',
-                'success'
-            );
-        }
-    });
+    var card = event.target.parentNode.parentNode
+    card.remove()
 }
 
-function editedPost(event, id) {
+async function editPost(event, id, description, title, bg_img) {
+      try {
 
-    var card = event.target.closest(".card");
-
-    var title = card.querySelector("h5").innerText;
-    var description = card.querySelector("p").innerText;
-
+    const { data: { user } } = await supabase.auth.getUser()
+    console.log(user);
+    userId = user.id
+    console.log( user.id);
+    
+  } catch (error) {
+    console.log(error);
+  }
     document.getElementById("title").value = title;
     document.getElementById("description").value = description;
 
+    cardBg = bg_img;        
     edited = true;
     idindex = id;
+    var images = document.getElementsByClassName("cardimg");
+    for (var i = 0; i < images.length; i++) {
+        images[i].classList.remove("select");
+        if (images[i].src === bg_img) {
+            images[i].classList.add("select");
+        }
+    }
 }

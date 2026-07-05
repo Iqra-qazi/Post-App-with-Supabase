@@ -95,12 +95,12 @@ function signanother() {
 const { data } = supabase.auth.onAuthStateChange((event, session) => {
   console.log(event, session)
 
-//   if (event === 'INITIAL_SESSION') {
-//    if(!session)alert("Please create account firstly")
-//   } else if (event === 'SIGNED_IN') {
-//     alert("Successfully SignUp")
-//     location="home.html"
-//   } 
+  if (event === 'INITIAL_SESSION') {
+   if(!session)alert("Please create account firstly")
+  } else if (event === 'SIGNED_IN') {
+    alert("Successfully SignUp")
+    location="home.html"
+  } 
   
 })
 
