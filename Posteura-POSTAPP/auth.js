@@ -8,30 +8,26 @@ async function login() {
     const name = document.getElementById("fname").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-
+    const phone =document.getElementById("phone")
     if (!name || !email || !password) {
         Swal.fire("Error", "Fill all fields", "error");
         return;
     }
 
-    const { data, error } = await supabase.auth.signUp({
-
-        email: email,
-
-        password: password,
-
-        options: {
-
+   
+    const { data, error } = await supabase.auth.signUp(
+        {
+          email: email,
+          password: password,
+          options: {
             data: {
-
-                username: name
-
+              first_name:name,
+              Phone:phone,
             }
-
+          }
         }
-
-    });
-
+      )
+console.log(data);
     if (error) {
 
         Swal.fire("Error", error.message, "error");
@@ -95,12 +91,12 @@ function signanother() {
 const { data } = supabase.auth.onAuthStateChange((event, session) => {
   console.log(event, session)
 
-  if (event === 'INITIAL_SESSION') {
-   if(!session)alert("Please create account firstly")
-  } else if (event === 'SIGNED_IN') {
-    alert("Successfully SignUp")
-    location="home.html"
-  } 
+//   if (event === 'INITIAL_SESSION') {
+//    if(!session)alert("Please create account firstly")
+//   } else if (event === 'SIGNED_IN') {
+//     alert("Successfully SignUp")
+//     location="home.html"
+//   } 
   
 })
 

@@ -1,9 +1,11 @@
 var supabase = window.supabase.createClient('https://krfehxcloabvtbdxlzwy.supabase.co', 'sb_publishable_ViZdvxOYXLv__IAiizr_ng_k7zffPSM')
-console.log(supabase);
+// console.log(supabase);
 let edited = false;
 let idindex = null;
 let email;
 let userId;
+// let userName=user.user_metadata.first_name.ChatAt(0)
+// console.log(userName);
 window.onload = async function () {
     const posts = document.getElementById("posts");
     if (!posts) {
@@ -38,6 +40,7 @@ window.onload = async function () {
             </div>
             `;
         });
+       
     } catch (err) {
         console.log(err);
     }
@@ -121,13 +124,21 @@ async function post() {
         return;
     }
     try {
-        const { data: { user }, error } = await supabase.auth.getUser();
+        let userName;
+        const { data: { user } } = await supabase.auth.getUser();
+         console.log(user.user_metadata.first_name);
+        // 
+        userName=user.user_metadata.first_name.chartAt(0)
+        console.log(userName);
+         console.log(userName);
         if (error) {
             console.log(error);
             return;
         }
         email = user.email;
-         userId = user.id
+         userId = user.id;
+         
+       
         if (edited) {
 
             const { error } = await supabase
@@ -183,7 +194,7 @@ async function post() {
     } catch (error) {
         console.log(error);
     }
-      location.reload()
+    //   location.reload()
 }
 async function deletePost(event, id) {
     console.log(event, id);
